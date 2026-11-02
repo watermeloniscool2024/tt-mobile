@@ -48,7 +48,6 @@ jobs:
       - name: Build APK with Buildozer
         run: |
           set -o pipefail
-          buildozer android clean
           buildozer -v android debug 2>&1 | tee build.log
 
       - name: Find APK
