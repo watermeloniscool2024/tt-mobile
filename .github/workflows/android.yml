@@ -37,7 +37,7 @@ jobs:
           mkdir -p ~/.buildozer/android/platform/android-sdk/tools/bin
           mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
 
-          # 2. Download Google's official command line tools bundle
+          # 2. Download the current official command line tools bundle
           wget https://google.com -O cmdline-tools.zip
           unzip cmdline-tools.zip
           
