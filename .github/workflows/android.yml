@@ -13,32 +13,26 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install System Dependencies
+      - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libffi-dev ccache openjdk-17-jdk git zip unzip
+          sudo apt-get install -y build-essential libffi-dev ccache git zip unzip lib32stdc++6 lib32z1
           pip install --upgrade pip
           pip install Cython==3.0.11 buildozer virtualenv
-
-      - name: Install Android Build Tools (Fix AIDL)
-        run: |
-          sudo mkdir -p /usr/local/lib/android/sdk/cmdline-tools/latest/bin
-          yes | sdkmanager --sdk_root=/usr/local/lib/android/sdk "build-tools;34.0.0" "platforms;android-34"
 
       - name: Build APK with Buildozer
         run: |
           buildozer android debug
         env:
           ACCEPT_SDK_LICENSE: "y"
-          ANDROID_SDK_ROOT: "/usr/local/lib/android/sdk"
-
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Turning-Tower-APK
-          path: bin/*.apk
