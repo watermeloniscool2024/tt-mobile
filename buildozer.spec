@@ -1,4 +1,3 @@
-
 [app]
 
 title = The Turning Tower
@@ -10,7 +9,7 @@ source.include_exts = py,png,jpg,jpeg,kv,atlas,json,wav
 
 version = 2.0.0
 
-requirements = python3,kivy==2.3.0,certifi
+requirements = python3==3.12.10,hostpython3==3.12.10,kivy==2.3.0,certifi
 
 orientation = landscape
 fullscreen = 1
