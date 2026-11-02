@@ -19,9 +19,6 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -30,13 +27,17 @@ jobs:
       - name: Install System Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential libffi-dev ccache git zip unzip libncurses5 libtinfo5
+          sudo apt-get install -y build-essential libffi-dev ccache git zip unzip libncurses5 libtinfo5 libstdc++6
           pip install --upgrade pip
           pip install Cython==3.0.11 buildozer virtualenv
+
+      - name: Pre-accept Android SDK Licenses
+        run: |
+          mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
+          echo -e "\n244bedf02b2d89b74b1d4857d256c73a48135785\n5c65a22208c6474d4d4b1c63077e4e34c3272021\ned390a5d174b24e77b19412e3b22b2b083c4175c\n24333f1a63b6825ea9c5514f83c2829b004d1fee\n84831b9409646a918e30573bab4c9c91346d8abd\n504667f4c0de7af1a06de9f4b1727b84351f2910\n859f317696f67ef3d7f1d8b340d6d053069c739e" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
 
       - name: Build APK with Buildozer
         run: |
           buildozer android debug
         env:
           ACCEPT_SDK_LICENSE: "y"
-          ANDROID_SDK_ROOT: ${{ env.ANDROID_HOME }}
